@@ -1,229 +1,215 @@
-# CRM Leads
+# CRM Leads — Plataforma Comercial Full Stack
 
-<p align="center">
-  CRM full stack para gestao de leads, pipeline comercial, agenda de reunioes e relatorios operacionais.
-</p>
+> CRM completo para times comerciais: pipeline visual, gestão de leads,
+> agenda de reuniões, KYC e relatórios com exportação PDF e Excel.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white" alt="React">
-  <img src="https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white" alt="Node.js">
-  <img src="https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white" alt="Express">
-  <img src="https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white" alt="MongoDB">
-  <img src="https://img.shields.io/badge/Material_UI-v5-007FFF?logo=mui&logoColor=white" alt="MUI">
-  <img src="https://img.shields.io/badge/JWT-Auth-000000?logo=jsonwebtokens&logoColor=white" alt="JWT">
-</p>
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![MUI](https://img.shields.io/badge/MUI-v5-007FFF?style=flat-square&logo=mui&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-## Visao Geral
+---
 
-O **CRM Leads** e uma aplicacao web para times comerciais que precisam:
+## Sobre o Projeto
 
-- centralizar cadastro de empresas e contatos
-- controlar o funil de vendas com pipeline visual (drag and drop)
-- gerenciar agenda de reunioes
-- acompanhar conversao com dashboards e relatorios
-- aplicar regras de acesso por perfil (ADM, SDR, Closer, Supervisor)
+O **CRM Leads** foi desenvolvido para simular um ambiente real de operação
+comercial — desde a prospecção até o fechamento — com controle de acesso
+por perfil, integrações externas e exportação de relatórios operacionais.
 
-## Destaques Para Recrutadores
+O foco técnico foi construir uma arquitetura em camadas limpa e escalável,
+com autenticação stateless por JWT, RBAC completo, consulta de CNPJ com
+fallback automático de provedores e geração de documentos direto pelo backend.
 
-- Arquitetura em camadas no backend (`routes -> controllers -> services -> models`)
-- Frontend modular com React + Context API para autenticacao e notificacoes
-- Autenticacao JWT com protecao de rotas e controle por papeis (RBAC)
-- Integracao externa para consulta de CNPJ com fallback de provedores
-- Exportacao de relatorios em PDF/Excel
-- Seed e setup de banco organizados em pasta dedicada (`backend/database`)
+---
 
-## Tecnologias Utilizadas
-
-### Frontend
-
-- React 18
-- React Router DOM
-- Material UI (MUI)
-- Chart.js + react-chartjs-2
-- React Big Calendar
-- Formik + Yup
-- Axios
-- React Toastify
-- @hello-pangea/dnd (drag and drop no pipeline)
-
-### Backend
-
-- Node.js
-- Express
-- Mongoose
-- JWT (jsonwebtoken)
-- bcryptjs
-- multer (upload de imagem de perfil)
-- express-validator
-- helmet, cors, morgan
-- PDFKit e ExcelJS
-
-### Banco de Dados
-
-- MongoDB
-- Scripts de banco:
-- `backend/database/setup-database.js`
-- `backend/database/seed.js`
-
-### Integracoes Externas
-
-- BrasilAPI (consulta CNPJ)
-- ReceitaWS (fallback de consulta CNPJ)
-
-## Funcionalidades Principais
-
-- Login com sessao JWT
-- Dashboard com indicadores e grafico de pipeline
-- Gestao de empresas (CRUD completo)
-- Consulta automatica de CNPJ para pre-preenchimento de dados
-- Pipeline de vendas com mudanca de status por arrastar e soltar
-- Agenda de reunioes com visualizacao em calendario
-- KYC e historico de movimentacoes por empresa
-- Relatorios com filtros e exportacao
-- Perfil de usuario com upload de foto
-
-## Arquitetura do Projeto
-
-```text
+## Arquitetura
+```
 CRM-FullStack/
-|-- backend/
-|   |-- config/
-|   |-- controllers/
-|   |-- middlewares/
-|   |-- models/
-|   |-- routes/
-|   |-- services/
-|   |-- database/         # setup e seed do MongoDB
-|   |-- tools/            # utilitarios de apoio
-|   |-- uploads/
-|   `-- server.js
-|-- frontend/
-|   |-- src/
-|   |   |-- components/
-|   |   |-- contexts/
-|   |   |-- pages/
-|   |   |-- services/
-|   |   `-- utils/
-|   `-- public/
-`-- prints/
+├── backend/
+│   ├── config/           # variáveis e conexão
+│   ├── controllers/      # lógica de requisição
+│   ├── middlewares/      # auth, RBAC, validação
+│   ├── models/           # schemas Mongoose
+│   ├── routes/           # mapeamento de endpoints
+│   ├── services/         # regras de negócio
+│   ├── database/         # setup e seed do MongoDB
+│   └── server.js
+└── frontend/
+    └── src/
+        ├── components/
+        ├── contexts/     # AuthContext, NotificationContext
+        ├── pages/
+        ├── services/     # cliente HTTP
+        └── utils/
 ```
 
-## Telas do Sistema
+**Fluxo de autenticação:**
+```
+POST /api/users/login  →  JWT gerado  →  Header Authorization  →  Middleware RBAC  →  Rota protegida
+```
 
-- Login customizado com identidade visual do produto
-- Dashboard operacional com cards e graficos
-- Pagina de empresas com busca, filtros e acoes rapidas
-- Pipeline comercial em colunas com drag and drop
-- Agenda de reunioes (visoes de calendario)
-- Relatorios e analise de conversao
+---
 
-### Capturas
+## Funcionalidades
 
-![Login](./prints/login.png)
-![Dashboard](./prints/dashboard.png)
-![Pipeline](./prints/pipeline.png)
-![Detalhes da Empresa](./prints/company-details.png)
-![Agenda](./prints/agenda.png)
-![Relatorios](./prints/relatorio.png)
+| Módulo | Funcionalidades |
+|---|---|
+| **Auth** | Login JWT, proteção de rotas, controle por perfil (RBAC) |
+| **Leads & Empresas** | CRUD completo, busca por CNPJ com preenchimento automático |
+| **Pipeline** | Funil de vendas com drag and drop entre etapas |
+| **KYC** | Histórico de movimentações e dados cadastrais por empresa |
+| **Agenda** | Gestão de reuniões com visualização em calendário |
+| **Relatórios** | Filtros avançados, exportação em PDF e Excel |
+| **Usuários** | Cadastro, upload de foto de perfil, troca de senha |
 
-## Endpoints Relevantes
+---
 
-- `POST /api/users/login`
-- `GET /api/users/me`
-- `PUT /api/users/profile`
-- `GET /api/companies`
-- `POST /api/companies`
-- `GET /api/companies/cnpj/:cnpj`
-- `GET /api/pipeline`
-- `POST /api/pipeline/update-status`
-- `GET /api/meetings`
-- `POST /api/meetings`
-- `GET /api/reports/full`
+## Perfis de Acesso (RBAC)
+
+| Perfil | Permissões |
+|---|---|
+| `ADM` | Acesso total, gestão de usuários |
+| `SDR` | Prospecção, cadastro de leads |
+| `Closer` | Pipeline, reuniões, fechamento |
+| `Supervisor` | Relatórios e dashboards completos |
+
+---
+
+## Stack Tecnológica
+
+### Backend
+- **Node.js 18+** com **Express 4**
+- **Mongoose** — modelagem ODM para MongoDB
+- **JWT + bcryptjs** — autenticação stateless e hash de senhas
+- **express-validator** — validação de entrada
+- **Helmet + CORS + Morgan** — segurança e logging HTTP
+- **PDFKit + ExcelJS** — geração de relatórios
+- **Multer** — upload de imagem de perfil
+
+### Frontend
+- **React 18** com **Material UI v5**
+- **React Router DOM** — roteamento protegido por perfil
+- **@hello-pangea/dnd** — drag and drop no pipeline
+- **React Big Calendar** — visualização de agenda
+- **Chart.js** — gráficos de conversão e dashboard
+- **Formik + Yup** — formulários com validação
+- **Axios** — cliente HTTP com interceptors
+
+### Banco de Dados
+- **MongoDB** com Mongoose
+- Scripts organizados em `backend/database/` (setup + seed)
+
+### Integrações Externas
+- **BrasilAPI** — consulta de CNPJ
+- **ReceitaWS** — fallback automático em caso de indisponibilidade
+
+---
 
 ## Como Executar Localmente
 
-### Pre-requisitos
-
+### Pré-requisitos
 - Node.js 18+
-- npm 9+
-- MongoDB local ou remoto (Atlas)
+- MongoDB local ou Atlas
 
-### 1. Clone o repositorio
-
+### 1. Clone o repositório
 ```bash
 git clone https://github.com/Draxsd3/crm-fullstack
 cd CRM-FullStack
 ```
 
 ### 2. Configure o backend
-
 ```bash
 cd backend
 npm install
-# Windows (PowerShell)
-copy .env.example .env
-# Linux/macOS
-# cp .env.example .env
+cp .env.example .env   # Linux/macOS
+# copy .env.example .env  (Windows)
 ```
 
-Ajuste as variaveis em `backend/.env`, principalmente:
-
-- `MONGODB_URI`
-- `JWT_SECRET`
-- `PORT`
-- `ALLOWED_ORIGINS`
+Variáveis principais em `backend/.env`:
+```
+MONGODB_URI=
+JWT_SECRET=
+PORT=5000
+ALLOWED_ORIGINS=http://localhost:3000
+```
 
 ### 3. Prepare o banco
-
 ```bash
-npm run db:setup:seed
+npm run db:setup:seed   # setup + seed
+npm run db:reset        # reset completo (opcional)
 ```
 
-Ou, se quiser reset completo:
-
+### 4. Inicie o backend
 ```bash
-npm run db:reset
+npm run dev
+# API disponível em http://localhost:5000/api
 ```
 
-### 4. Configure o frontend
-
+### 5. Configure e inicie o frontend
 ```bash
 cd ../frontend
 npm install
 npm start
+# App disponível em http://localhost:3000
 ```
 
-### 5. Inicie o backend (em outro terminal)
+---
 
-```bash
-cd backend
-npm run dev
+## Credenciais de Demonstração
+
+| Perfil | E-mail | Senha |
+|---|---|---|
+| ADM | `admin@crmleads.com` | `Admin@2024` |
+| SDR | `renan@crmleads.com` | `Renan@2004` |
+| Closer | `maria@crmleads.com` | `Maria@2024` |
+| Supervisor | `carlos@crmleads.com` | `Carlos@2024` |
+
+---
+
+## Endpoints Principais
+```
+POST   /api/users/login
+GET    /api/users/me
+PUT    /api/users/profile
+
+GET    /api/companies
+POST   /api/companies
+GET    /api/companies/cnpj/:cnpj
+
+GET    /api/pipeline
+POST   /api/pipeline/update-status
+
+GET    /api/meetings
+POST   /api/meetings
+
+GET    /api/reports/full
 ```
 
-## Credenciais de Demonstracao
+---
 
-Essas contas sao criadas pelo seed:
+## Diferenciais Técnicos
 
-- `admin@crmleads.com` / `Admin@2024` (ADM)
-- `renan@crmleads.com` / `Renan@2004` (SDR)
-- `maria@crmleads.com` / `Maria@2024` (Closer)
-- `carlos@crmleads.com` / `Carlos@2024` (Supervisor)
+- Arquitetura em camadas: `routes → controllers → services → models`
+- RBAC granular com 4 perfis e middlewares independentes
+- Consulta de CNPJ com fallback automático entre dois provedores
+- Geração de PDF e Excel diretamente no backend sem dependências de terceiros
+- Drag and drop nativo no pipeline sem bibliotecas pesadas
+- Interceptors Axios centralizados para token, erros e notificações
 
-## Qualidade e Seguranca
+---
 
-- validacoes de entrada no backend (express-validator)
-- senhas com hash bcrypt
-- JWT para autenticacao stateless
-- middlewares de seguranca HTTP com helmet
-- CORS configuravel por ambiente
+## Roadmap
 
-## Roadmap (Evolucao)
+- [ ] Testes automatizados (Jest + Supertest no backend)
+- [ ] CI/CD com GitHub Actions
+- [ ] Auditoria de atividades por usuário
+- [ ] Dashboard com KPIs avançados por etapa do funil
 
-- testes automatizados (backend e frontend)
-- CI/CD com pipeline de build e deploy
-- auditoria de atividades por usuario
-- dashboard com KPIs avancados por etapa
+---
 
-## Licenca
+## Licença
 
-Projeto sob licenca MIT. Veja [`LICENSE`](./LICENSE).
+MIT License. Consulte `LICENSE` para detalhes.
